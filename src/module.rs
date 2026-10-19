@@ -612,7 +612,7 @@ impl FunctionSection {
         let functions = wasm.read_vec(|w| Func::read_func_section(w, module))?;
 
         // Module functions are referenced by a 16-bit index (`Ref::Module`)
-        if functions.len() > 0x10000 {
+        if functions.len() > u16::MAX as usize {
             return Err(ValidationError::IdxTooLarge);
         }
 
@@ -725,7 +725,7 @@ impl GlobalSection {
         let globals = wasm.read_vec(|wasm| Global::read(wasm, store, module))?;
 
         // Module globals are referenced by a 16-bit index (`Ref::Module`)
-        if globals.len() > 0x10000 {
+        if globals.len() > u16::MAX as usize {
             return Err(ValidationError::IdxTooLarge);
         }
 
